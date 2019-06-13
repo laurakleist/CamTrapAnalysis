@@ -73,10 +73,12 @@ There are 188 events with only one classification.
 #### Distribution of Number of Classifications
 ```{r}
 # make dataframe of each event and the number of classifications made for it
-classNums <- filter(numSubjects, numObs >= 1)
+numSubjects <- DF %>% group_by(subject_ids) %>% summarise(n_distinct(user_name))
+# change column name
+colnames(numSubjects) <- c("subject_ids", "numClass")
 
 # use it to make a histogram
-ggplot(classNums, aes(numObs)) + 
+ggplot(numSubjects, aes(numClass)) + 
 	geom_histogram() +
 	ylab("Number of Events") +
 	xlab("Number of Classifications Made") +
@@ -87,7 +89,7 @@ ggplot(classNums, aes(numObs)) +
 #### Number of Classifications and Unique Species for Events with >1 Classification  
 ```{r}
 # dataframe of all events that have more than one classification
-repeatSubs <- filter(classNums, numObs > 1)
+repeatSubs <- filter(numSubjects, numClass > 1)
 
 
 #classedEvents <- merge(Repeats, repeatSubs, by=c("date", "file"), all = TRUE)
