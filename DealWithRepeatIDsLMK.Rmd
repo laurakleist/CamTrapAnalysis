@@ -91,7 +91,8 @@ ggplot(numSubjects, aes(numClass)) +
 # dataframe of all events that have more than one classification
 repeatSubs <- filter(numSubjects, numClass > 1)
 
-
-#classedEvents <- merge(Repeats, repeatSubs, by=c("date", "file"), all = TRUE)
+# dataframe of repeat events and their images
+repeatImages <- select(Repeats, subject_ids, Image1, Image2, Image3)
+#classedEvents <- merge(repeatSubs, Repeats, by = c("date", "file"), all = TRUE)
 ```
 
