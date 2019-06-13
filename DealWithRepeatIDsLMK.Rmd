@@ -17,6 +17,7 @@ The following bunch of R scripts takes the flattened classfication file produced
 rm(list = ls())
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 ```
 ```{r}
 #pull in the data file
@@ -110,5 +111,15 @@ repeatSpecies <- Repeats %>% group_by(subject_ids) %>% summarise(n_distinct(choi
 colnames(repeatSpecies) <- c("subject_ids", "numSp")
 # merge into "classedEvents"
 classedEvents <- merge(classedEvents, repeatSpecies, by = c("subject_ids"), all = TRUE)
+
+# dataframe of species for each repeat event
+species <- select(Repeats, subject_ids, choice)
+# change species to a factor?
+species$choice <- as.factor(species$choice)
+# change to wide format
+
+
+#species <- spread(species, choice)
+#reshape(species, idvar = "choice", direction = "wide")
 ```
 
