@@ -43,7 +43,7 @@ repeatSubjects<-unique(Repeats$subject_ids)
 #so repeatSubjects is the list of subjects that repeat > 1 time.  Can use it to loop if needed.
 ```
 
-
+</br>
 
 #### Total Number of Events  
 
@@ -56,7 +56,8 @@ str(DF)
 # 218 events
 ```
 There are 218 events in the dataframe.  
-  
+
+</br>  
    
 #### Events w/ One Classification
 ```{r}
@@ -69,6 +70,7 @@ str(Repeats)
 ```
 There are 188 events with only one classification.  
 
+</br>
 
 #### Distribution of Number of Classifications
 ```{r}
@@ -85,6 +87,7 @@ ggplot(numSubjects, aes(numClass)) +
 	scale_x_continuous(breaks = c(1,2,3))
 ```
 
+</br>
 
 #### Number of Classifications and Unique Species for Events with >1 Classification  
 ```{r}
@@ -93,6 +96,8 @@ repeatSubs <- filter(numSubjects, numClass > 1)
 
 # dataframe of repeat events and their images
 repeatImages <- select(Repeats, subject_ids, Image1, Image2, Image3)
-#classedEvents <- merge(repeatSubs, Repeats, by = c("date", "file"), all = TRUE)
+
+# merge these together
+classedEvents <- merge(repeatSubs, repeatImages, by = c("subject_ids"), all = TRUE)
 ```
 
