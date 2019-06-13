@@ -99,5 +99,16 @@ repeatImages <- select(Repeats, subject_ids, Image1, Image2, Image3)
 
 # merge these together
 classedEvents <- merge(repeatSubs, repeatImages, by = c("subject_ids"), all = TRUE)
+# keep only the unique subject_ids
+classedEvents <- unique(classedEvents)
+# change column order
+classedEvents <- classedEvents[,c("subject_ids", "Image1", "Image2", "Image3", "numClass")]
+
+# dataframe of number of different species for each event w/ > 1 classification
+repeatSpecies <- Repeats %>% group_by(subject_ids) %>% summarise(n_distinct(choice))
+# change column name
+colnames(repeatSpecies) <- c("subject_ids", "numSp")
+# merge into "classedEvents"
+classedEvents <- merge(classedEvents, repeatSpecies, by = c("subject_ids"), all = TRUE)
 ```
 
