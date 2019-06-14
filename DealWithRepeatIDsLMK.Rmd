@@ -116,10 +116,16 @@ classedEvents <- merge(classedEvents, repeatSpecies, by = c("subject_ids"), all 
 species <- select(Repeats, subject_ids, choice)
 # change species to a factor?
 species$choice <- as.factor(species$choice)
+# add new column of choice number for each event
+species <- species %>% group_by(subject_ids) %>% mutate(choiceNum = letters[1:length(subject_ids)])
 # change to wide format
+species <- spread(species, choiceNum, choice)
+# merge into "classedEvents"
+classedEvents <- merge(classedEvents, species, by = c("subject_ids"), all = TRUE)
+
+# add column showing if all species for the event are the same or not
 
 
-#species <- spread(species, choice)
-#reshape(species, idvar = "choice", direction = "wide")
+
 ```
 
